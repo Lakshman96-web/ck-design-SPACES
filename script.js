@@ -19,14 +19,13 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 const SUPABASE_URL = "https://rznpysjqnshssspifxen.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6bnB5c2pxbnNoc3NzcGlmeGVuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNTI1NTAsImV4cCI6MjA5NzYyODU1MH0.VVWZoHDMIPBRb9V0k28g5bzKHMvUaWNK_MF_fyaUtig";
-const supabaseClient = supabase.createClient(
+const supabaseClient = window.supabase ? window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
-);
-console.log(window.supabase);
+): null;
 const form = document.querySelector('#lead-form');
 
-form?.addEventListener('submit', async (event) => {
+if (form && supabaseClient) form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const formData = new FormData(form);
   const { error } = await supabaseClient
